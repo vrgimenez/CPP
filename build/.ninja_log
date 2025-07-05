@@ -1,0 +1,5 @@
+# ninja log v7
+49	953	7729430384298940	CMakeFiles/main01.dir/Release/main01.cpp.obj	762dcfe0495d7e9b
+964	1219	7729430393469211	Release/main01_release.exe	e0854ca1e8fd0566
+46	1208	7729430449963633	CMakeFiles/main01.dir/Debug/main01.cpp.obj	e72da6fc52546620
+1210	1483	7729430461610267	Debug/main01_debug.exe	21bea2537712281f

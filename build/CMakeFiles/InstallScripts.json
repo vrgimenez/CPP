@@ -1,0 +1,11 @@
+{
+	"Configs" : 
+	[
+		"Debug"
+	],
+	"InstallScripts" : 
+	[
+		"C:/_Dev/CPP/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
