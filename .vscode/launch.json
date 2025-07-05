@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(Windows) Launch",
+            "name": "(Windows) Main01",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${workspaceFolder}/main01.exe",
@@ -13,8 +13,18 @@
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
-            "console": "externalTerminal"
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "(Windows) Main02",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/main02.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "console": "integratedTerminal"
         }
-
     ]
 }

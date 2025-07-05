@@ -156,7 +156,7 @@ int main() {
     build_type = "Debug";
     #endif
 
-    std::cout << "¡Hola desde C++!" << std::endl;
+    std::cout << "\xAD""Hola desde C++!" << std::endl;
     std::cout << "Este programa fue compilado en modo: " << build_type << std::endl;
     #endif    //#if _CMAKE_
 

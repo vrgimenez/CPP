@@ -8,8 +8,9 @@ project(Main01App LANGUAGES CXX) # Indica que es un proyecto C++
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
-# Añadir el ejecutable
+# Añadir el ejecutables
 add_executable(main01 main01.cpp)
+add_executable(main02 main02.cpp)
 
 # --- Configuración para Debug y Release ---
 
@@ -19,6 +20,10 @@ add_executable(main01 main01.cpp)
 # - Deshabilitan optimizaciones (o usan -O0)
 # - No definen NDEBUG
 target_compile_options(main01 PUBLIC
+    $<$<CONFIG:Debug>:-g>               # Asegura -g para Debug
+    $<$<CONFIG:Debug>:-O0>              # Sin optimizaciones para Debug
+)
+target_compile_options(main02 PUBLIC
     $<$<CONFIG:Debug>:-g>               # Asegura -g para Debug
     $<$<CONFIG:Debug>:-O0>              # Sin optimizaciones para Debug
 )
@@ -32,6 +37,10 @@ target_compile_options(main01 PUBLIC
     $<$<CONFIG:Release>:-O3>            # Optimización para velocidad en Release
     $<$<CONFIG:Release>:-DNDEBUG>       # Define NDEBUG para Release
 )
+target_compile_options(main02 PUBLIC
+    $<$<CONFIG:Release>:-O3>            # Optimización para velocidad en Release
+    $<$<CONFIG:Release>:-DNDEBUG>       # Define NDEBUG para Release
+)
 
 # **NO FUNCIONA** Para eliminar los símbolos de depuración en el binario final (opcional, pero buena práctica para Release)
 # Añadir sufijos a los binarios (opcional, pero útil)
@@ -40,9 +49,17 @@ set_target_properties(main01 PROPERTIES
     RELEASE_POSTFIX "_release"         # Añade un sufijo a los binarios Release (ej: MiApp_release)
    #CMAKE_EXE_LINKER_FLAGS_RELEASE "-s" # **NO FUNCIONA** Quita los símbolos de depuración en el enlace final para Release
 )
+set_target_properties(main02 PROPERTIES
+    DEBUG_POSTFIX "_debug"             # Añade un sufijo a los binarios Debug (ej: MiApp_debug)
+    RELEASE_POSTFIX "_release"         # Añade un sufijo a los binarios Release (ej: MiApp_release)
+   #CMAKE_EXE_LINKER_FLAGS_RELEASE "-s" # **NO FUNCIONA** Quita los símbolos de depuración en el enlace final para Release
+)
 
 # **ÉSTO SI FUNCIONA!!!** Usa target_link_options para pasar -s al enlazador solo en modo Release.
 target_link_options(main01 PUBLIC
+    $<$<CONFIG:Release>:-s>
+)
+target_link_options(main02 PUBLIC
     $<$<CONFIG:Release>:-s>
 )
 
