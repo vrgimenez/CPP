@@ -20,8 +20,8 @@ git clone <url>
 ```sh
 mkdir build && cd build/
 cmake .. -G 'Ninja Multi-Config'    // necesary to support Release and Debug build
-cmake --build . --config Debug		// for binary Release build
-cmake --build . --config Release	// for binary Debug build
+cmake --build . --config Debug      // for binary Release build
+cmake --build . --config Release    // for binary Debug build
 ```
 
 ## Contributing

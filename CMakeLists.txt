@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Nombre del proyecto
-project(Main01App LANGUAGES CXX) # Indica que es un proyecto C++
+project(LearningCPP LANGUAGES CXX) # Indica que es un proyecto C++
 
 # Especifica el estándar C++ a usar (por ejemplo, C++17)
 set(CMAKE_CXX_STANDARD 17)
@@ -11,6 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 # Añadir el ejecutables
 add_executable(main01 main01.cpp)
 add_executable(main02 main02.cpp)
+add_executable(ColeccionEnteros ColeccionEnteros.cpp)
 
 # --- Configuración para Debug y Release ---
 
@@ -20,12 +21,16 @@ add_executable(main02 main02.cpp)
 # - Deshabilitan optimizaciones (o usan -O0)
 # - No definen NDEBUG
 target_compile_options(main01 PUBLIC
-    $<$<CONFIG:Debug>:-g>               # Asegura -g para Debug
-    $<$<CONFIG:Debug>:-O0>              # Sin optimizaciones para Debug
+    $<$<CONFIG:Debug>:-g>
+    $<$<CONFIG:Debug>:-O0>
 )
 target_compile_options(main02 PUBLIC
-    $<$<CONFIG:Debug>:-g>               # Asegura -g para Debug
-    $<$<CONFIG:Debug>:-O0>              # Sin optimizaciones para Debug
+    $<$<CONFIG:Debug>:-g>
+    $<$<CONFIG:Debug>:-O0>
+)
+target_compile_options(ColeccionEnteros PUBLIC
+    $<$<CONFIG:Debug>:-g>
+    $<$<CONFIG:Debug>:-O0>
 )
 
 # 2. Modo Release
@@ -34,32 +39,40 @@ target_compile_options(main02 PUBLIC
 # - Habilitan optimizaciones (-O2, -O3, -Os)
 # - Definen NDEBUG (que desactiva 'assert' y otras comprobaciones)
 target_compile_options(main01 PUBLIC
-    $<$<CONFIG:Release>:-O3>            # Optimización para velocidad en Release
-    $<$<CONFIG:Release>:-DNDEBUG>       # Define NDEBUG para Release
+    $<$<CONFIG:Release>:-O3>
+    $<$<CONFIG:Release>:-DNDEBUG>
 )
 target_compile_options(main02 PUBLIC
-    $<$<CONFIG:Release>:-O3>            # Optimización para velocidad en Release
-    $<$<CONFIG:Release>:-DNDEBUG>       # Define NDEBUG para Release
+    $<$<CONFIG:Release>:-O3>
+    $<$<CONFIG:Release>:-DNDEBUG>
+)
+target_compile_options(ColeccionEnteros PUBLIC
+    $<$<CONFIG:Release>:-O3>
+    $<$<CONFIG:Release>:-DNDEBUG>
 )
 
-# **NO FUNCIONA** Para eliminar los símbolos de depuración en el binario final (opcional, pero buena práctica para Release)
 # Añadir sufijos a los binarios (opcional, pero útil)
 set_target_properties(main01 PROPERTIES
-    DEBUG_POSTFIX "_debug"             # Añade un sufijo a los binarios Debug (ej: MiApp_debug)
-    RELEASE_POSTFIX "_release"         # Añade un sufijo a los binarios Release (ej: MiApp_release)
-   #CMAKE_EXE_LINKER_FLAGS_RELEASE "-s" # **NO FUNCIONA** Quita los símbolos de depuración en el enlace final para Release
+    DEBUG_POSTFIX "_debug"
+    RELEASE_POSTFIX "_release"
 )
 set_target_properties(main02 PROPERTIES
-    DEBUG_POSTFIX "_debug"             # Añade un sufijo a los binarios Debug (ej: MiApp_debug)
-    RELEASE_POSTFIX "_release"         # Añade un sufijo a los binarios Release (ej: MiApp_release)
-   #CMAKE_EXE_LINKER_FLAGS_RELEASE "-s" # **NO FUNCIONA** Quita los símbolos de depuración en el enlace final para Release
+    DEBUG_POSTFIX "_debug"
+    RELEASE_POSTFIX "_release"
+)
+set_target_properties(ColeccionEnteros PROPERTIES
+    DEBUG_POSTFIX "_debug"
+    RELEASE_POSTFIX "_release"
 )
 
-# **ÉSTO SI FUNCIONA!!!** Usa target_link_options para pasar -s al enlazador solo en modo Release.
+# Usa target_link_options para pasar -s al enlazador solo en modo Release.
 target_link_options(main01 PUBLIC
     $<$<CONFIG:Release>:-s>
 )
 target_link_options(main02 PUBLIC
+    $<$<CONFIG:Release>:-s>
+)
+target_link_options(ColeccionEnteros PUBLIC
     $<$<CONFIG:Release>:-s>
 )
 
