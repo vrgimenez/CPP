@@ -1,4 +1,11 @@
+#define _CTOR_AND_DTOR_         0
+#define _COPY_CONSTRUCTOR_      0
+#define _COPY_ASSIGNMENT_OPE_   1
+
 #include <iostream> // Para std::cout y std::endl
+    #if _COPY_CONSTRUCTOR_ || _COPY_ASSIGNMENT_OPE_
+#include <algorithm> // For std::copy
+    #endif
 
 class ColeccionEnteros {
 private:
@@ -6,15 +13,16 @@ private:
     int tamano;     // Tamaño actual de la colección
 
 public:
+        #if _CTOR_AND_DTOR_ || _COPY_CONSTRUCTOR_ || _COPY_ASSIGNMENT_OPE_
     // --- Constructores ---
 
-    // 1. Constructor por Defecto
+    // 1. Constructor por Defecto (Default Constructor)
     // Inicializa una colección vacía.
     ColeccionEnteros() : datos(nullptr), tamano(0) {
         std::cout << "DEBUG: Constructor por defecto de ColeccionEnteros llamado (vacía)." << std::endl;
     }
 
-    // 2. Constructor Parametrizado
+    // 2. Constructor Parametrizado (Parametrized Constructor)
     // Crea una colección de un tamaño dado y asigna memoria.
     ColeccionEnteros(int n) : tamano(n) {
         if (tamano > 0) {
@@ -44,6 +52,52 @@ public:
             std::cout << "DEBUG: Destructor de ColeccionEnteros llamado. No había memoria que liberar." << std::endl;
         }
     }
+        #endif  //#if _CTOR_AND_DTOR_ || _COPY_CONSTRUCTOR_ || _COPY_ASSIGNMENT_OPE_
+
+        #if _COPY_CONSTRUCTOR_ || _COPY_ASSIGNMENT_OPE_
+    // --- Copy Constructor ---
+    // Takes a const reference to another object of the same class.
+    // Creates a deep copy of the source object's data.
+    ColeccionEnteros(const ColeccionEnteros& other) : tamano(other.tamano) {
+        std::cout << "DEBUG: Copy Constructor called." << std::endl;
+        if (tamano > 0) {
+            datos = new int[tamano]; // 1. Allocate NEW memory
+            std::copy(other.datos, other.datos + tamano, datos); // 2. Deep copy the data
+        } else {
+            datos = nullptr;
+        }
+    }
+        #endif  //#if _COPY_CONSTRUCTOR_ || _COPY_ASSIGNMENT_OPE_
+
+        #if _COPY_ASSIGNMENT_OPE_
+    // --- Copy Assignment Operator ---
+    ColeccionEnteros& operator=(const ColeccionEnteros& other) {
+        std::cout << "DEBUG: Copy Assignment Operator called." << std::endl;
+
+        // 1. Handle self-assignment (e.g., obj = obj;)
+        if (this == &other) {
+            return *this; // Return immediately
+        }
+
+        // 2. Free existing resources (important!)
+        if (datos != nullptr) {
+            delete[] datos;
+            datos = nullptr; // Defensive programming
+        }
+
+        // 3. Allocate new memory and deep copy
+        tamano = other.tamano;
+        if (tamano > 0) {
+            datos = new int[tamano];
+            std::copy(other.datos, other.datos + tamano, datos);
+        } else {
+            datos = nullptr;
+        }
+
+        // 4. Return *this to allow chaining (e.g., obj3 = obj2 = obj1;)
+        return *this;
+    }
+        #endif  //#if _COPY_ASSIGNMENT_OPE_
 
     // --- Métodos de la Clase ---
 
@@ -85,8 +139,9 @@ public:
 
 // Función principal (main) para probar la clase
 int main() {
-    std::cout << "--- Inicio del programa ---" << std::endl;
+    std::cout << "--- Program Start ---" << std::endl;
 
+        #if _CTOR_AND_DTOR_
     // 1. Probar el Constructor por Defecto
     ColeccionEnteros c1; // Se crea un objeto vacío
     std::cout << "Tamaño de c1: " << c1.getTamano() << std::endl;
@@ -117,8 +172,56 @@ int main() {
     // ¡Muy importante! Llamar delete para que el destructor se invoque
     delete ptr_c3;
     ptr_c3 = nullptr; // Buenas prácticas
+        #endif  //#if _CTOR_AND_DTOR_
 
-    std::cout << "\n--- Fin del programa ---" << std::endl;
-    // Aquí c1 y c2 salen del ámbito y sus destructores se llaman automáticamente.
+        #if _COPY_CONSTRUCTOR_
+    ColeccionEnteros c1(3);
+    c1.establecer(0, 10);
+    c1.establecer(1, 20);
+    c1.establecer(2, 30);
+    std::cout << "c1: "; c1.mostrarElementos();
+
+    std::cout << "\n--- Creating c2 by copy-initializing from c1 ---" << std::endl;
+    ColeccionEnteros c2 = c1; // Calls the Copy Constructor
+    std::cout << "c2: "; c2.mostrarElementos();
+
+    std::cout << "\n--- Modifying c1 (c2 should remain unchanged) ---" << std::endl;
+    c1.establecer(0, 100);
+    std::cout << "c1 after modification: "; c1.mostrarElementos();
+    std::cout << "c2 (should be original): "; c2.mostrarElementos(); // c2 still has 10, 20, 30
+
+    std::cout << "\n--- Program End ---" << std::endl;
+        #endif  //#if _COPY_CONSTRUCTOR_
+
+        #if _COPY_ASSIGNMENT_OPE_
+    ColeccionEnteros c1(3);
+    c1.establecer(0, 10);
+    c1.establecer(1, 20);
+    c1.establecer(2, 30);
+    std::cout << "c1: "; c1.mostrarElementos();
+
+    std::cout << "\n--- Creating c2 by copy-initializing from c1 ---" << std::endl;
+    ColeccionEnteros c2 = c1; // Calls the Copy Constructor
+    std::cout << "c2: "; c2.mostrarElementos();
+
+    std::cout << "\n--- Creating c3, then assigning c1 to it ---" << std::endl;
+    ColeccionEnteros c3(2); // c3 is already constructed, calls parametrized constructor
+    c3.establecer(0, 99);
+    c3.establecer(1, 88);
+    std::cout << "c3 before assignment: "; c3.mostrarElementos();
+
+    c3 = c1; // Calls the Copy Assignment Operator
+    std::cout << "c3 after assignment from c1: "; c3.mostrarElementos();
+
+    std::cout << "\n--- Modifying c1 again (c2 and c3 should remain unchanged) ---" << std::endl;
+    c1.establecer(0, 1000);
+    std::cout << "c1 after modification: "; c1.mostrarElementos();
+    std::cout << "c2 (should be original): "; c2.mostrarElementos();
+    std::cout << "c3 (should be copy of original c1): "; c3.mostrarElementos();
+         #endif  //#if _COPY_ASSIGNMENT_OPE_
+
+    std::cout << "\n--- Program End ---" << std::endl;
+    // #_CTOR_AND_DTOR_: Aquí c1 y c2 salen del ámbito y sus destructores se llaman automáticamente.
+
     return 0;
 }
