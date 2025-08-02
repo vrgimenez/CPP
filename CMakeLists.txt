@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 add_executable(main01 main01.cpp)
 add_executable(main02 main02.cpp)
 add_executable(ColeccionEnteros ColeccionEnteros.cpp)
+add_executable(ColeccionVector ColeccionVector.cpp)
 
 # --- Configuración para Debug y Release ---
 
@@ -29,6 +30,10 @@ target_compile_options(main02 PUBLIC
     $<$<CONFIG:Debug>:-O0>
 )
 target_compile_options(ColeccionEnteros PUBLIC
+    $<$<CONFIG:Debug>:-g>
+    $<$<CONFIG:Debug>:-O0>
+)
+target_compile_options(ColeccionVector PUBLIC
     $<$<CONFIG:Debug>:-g>
     $<$<CONFIG:Debug>:-O0>
 )
@@ -50,6 +55,10 @@ target_compile_options(ColeccionEnteros PUBLIC
     $<$<CONFIG:Release>:-O3>
     $<$<CONFIG:Release>:-DNDEBUG>
 )
+target_compile_options(ColeccionVector PUBLIC
+    $<$<CONFIG:Release>:-O3>
+    $<$<CONFIG:Release>:-DNDEBUG>
+)
 
 # Añadir sufijos a los binarios (opcional, pero útil)
 set_target_properties(main01 PROPERTIES
@@ -64,6 +73,10 @@ set_target_properties(ColeccionEnteros PROPERTIES
     DEBUG_POSTFIX "_debug"
     RELEASE_POSTFIX "_release"
 )
+set_target_properties(ColeccionVector PROPERTIES
+    DEBUG_POSTFIX "_debug"
+    RELEASE_POSTFIX "_release"
+)
 
 # Usa target_link_options para pasar -s al enlazador solo en modo Release.
 target_link_options(main01 PUBLIC
@@ -73,6 +86,9 @@ target_link_options(main02 PUBLIC
     $<$<CONFIG:Release>:-s>
 )
 target_link_options(ColeccionEnteros PUBLIC
+    $<$<CONFIG:Release>:-s>
+)
+target_link_options(ColeccionVector PUBLIC
     $<$<CONFIG:Release>:-s>
 )
 
