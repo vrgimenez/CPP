@@ -37,14 +37,15 @@ private:
 public:
     // TODO: Implement the constructor for LibroDeTexto
     LibroDeTexto(const std::string& titulo, const std::string& autor, double precio, const std::string& materia) 
-    {
+        : Libro(titulo, autor, precio), materia(materia) {
         // TODO: Call the base class constructor and initialize 'materia'
+        std::cout << "DEBUG: LibroDeTexto derived class constructor called for " << titulo << std::endl;
     }
 
     // TODO: Override the virtual function to return a specific type
     std::string obtenerTipo() const override {
         // TODO: Return "Libro de Texto"
-        return "";
+        return "Libro de Texto";
     }
 
     void mostrarDetalles() const override {
@@ -61,14 +62,15 @@ private:
 public:
     // TODO: Implement the constructor for Novela
     Novela(const std::string& titulo, const std::string& autor, double precio, const std::string& genero)
-    {
+        : Libro(titulo, autor, precio), genero(genero) {
         // TODO: Call the base class constructor and initialize 'genero'
+        std::cout << "DEBUG: Novela derived class constructor called for " << titulo << std::endl;
     }
 
     // TODO: Override the virtual function to return a specific type
     std::string obtenerTipo() const override {
         // TODO: Return "Novela"
-        return "";
+        return "Novela";
     }
 
     void mostrarDetalles() const override {
@@ -85,8 +87,8 @@ int main() {
 
     // We can store different derived types in a vector of base class pointers
     // TODO: Create a LibroDeTexto and a Novela and add them to the inventory
-    inventario.push_back(std::make_unique<LibroDeTexto>(/* ... */));
-    inventario.push_back(std::make_unique<Novela>(/* ... */));
+    inventario.push_back(std::make_unique<LibroDeTexto>("Matemática 1", "Darío Tuffilaro", 33000, "Matemática"));
+    inventario.push_back(std::make_unique<Novela>("El Camino de Sherlock", "Andrea Ferrari", 20900, "Misterio"));
 
     std::cout << "\n--- Displaying inventory details and types using polymorphism ---" << std::endl;
 
