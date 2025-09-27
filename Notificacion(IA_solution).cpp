@@ -5,53 +5,35 @@
 
 // --- Abstract Base Class ---
 class Notificacion {
-/*protected:
-    std::string mensaje;*/
-
 public:
-    //Notificacion(const std::string& mensaje) : mensaje(mensaje) {}
-
-    // Pure virtual function. It forces derived classes to provide an implementation.
     virtual void enviar(const std::string& mensaje) const = 0;
-
-    // A virtual destructor is required for base classes with virtual functions.
     virtual ~Notificacion() = default;
 };
 
 // --- Derived Class 1: Email Notification ---
 class EmailNotificacion : public Notificacion {
 public:
-    //EmailNotificacion(const std::string& mensaje) : Notificacion(mensaje) {}
-
     void enviar(const std::string& mensaje) const override {
-        std::cout << "Sending Email Notification..." << mensaje << std::endl;
+        std::cout << "DEBUG: Enviando email con el mensaje: '" << mensaje << "'" << std::endl;
     }
 };
 
 // --- Derived Class 2: SMS Notification ---
 class SMSNotificacion : public Notificacion {
 public:
-    //SMSNotificacion(const std::string& mensaje) : Notificacion(mensaje) {}
-
     void enviar(const std::string& mensaje) const override {
-        std::cout << "Sending SMS Notification... " << mensaje << std::endl;
+        std::cout << "DEBUG: Enviando SMS con el mensaje: '" << mensaje << "'" << std::endl;
     }
 };
 
 int main() {
     std::cout << "--- Sistema de Notificaciones ---" << std::endl;
 
-    // We can't do this because Notificacion is an abstract class:
-    // Notificacion notif;
-
-    // Use a vector to store different types of notifications polymorphically.
     std::vector<std::unique_ptr<Notificacion>> canales_de_notificacion;
 
-    // TODO: Create a unique_ptr to an EmailNotificacion and an SMSNotificacion
-    //       and add them to the vector.
-    
-    canales_de_notificacion.push_back(std::make_unique<EmailNotificacion>());   //("Email rulezzzz"));
-    canales_de_notificacion.push_back(std::make_unique<SMSNotificacion>());     //("SMS surpassed by instant messaging."));
+    // Create unique_ptr to derived types and add to vector
+    canales_de_notificacion.push_back(std::make_unique<EmailNotificacion>());
+    canales_de_notificacion.push_back(std::make_unique<SMSNotificacion>());
 
     std::cout << "\n--- Enviando mensajes a todos los canales ---" << std::endl;
     std::string mensaje_importante = "¡Tu pedido ha sido enviado!";
