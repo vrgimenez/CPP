@@ -11,13 +11,13 @@ Everything, including the CMakeLists.txt files, was generated with the help of t
 ## Setup 
 
 Checkout repository.
-```
+```console
 git clone <url>
 ```
 
 ## Building
 
-```sh
+```console
 cmake -Bbuild -G 'Ninja Multi-Config'    // necesary to support Release and Debug build
 cmake --build build/ --config Debug      // for binary Release build
 cmake --build build/ --config Release    // for binary Debug build
