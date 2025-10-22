@@ -18,6 +18,7 @@ set(EXECUTABLES
     Inventario
     main01
     main02
+    multithreading_example
     Notificacion_IA_payload
     Notificacion_IA_solution1
     Notificacion_IA_solution2

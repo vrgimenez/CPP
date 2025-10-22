@@ -1,6 +1,7 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <climits>
 
 // Función que será ejecutada por el primer hilo
 void tarea_hilo_1_sleep_for() {
@@ -27,7 +28,7 @@ void tarea_hilo_3_factorial(int n) {
     for (int i = 1; i <= n; i++) {
         fact *= i;
     }
-    std::cout << "Hilo 3: Factorial de " << n << " = " << fact << ". Cálculo terminado." << std::endl;
+    std::cout << "Hilo 3 :(Factorial de " << n << "): Total = " << fact << ". Cálculo terminado. (ullong_max: " << ULLONG_MAX << ")" << std::endl;
 }
 
 int main() {
@@ -44,7 +45,7 @@ int main() {
 
     // 3. Creación del tercer hilo, pasándole un argumento (el entero n).
     // Inicia inmediatamente la ejecución de 'tarea_hilo_3_factorial(n)'
-    int n = 30;
+    int n = 20;
     std::thread hilo3(tarea_hilo_3_factorial, n);
 
     std::cout << "Hilo Principal: Hilos creados y ejecutándose." << std::endl;
@@ -62,7 +63,7 @@ int main() {
     std::cout << "Hilo Principal: Esperando a que el Hilo 3 termine (join)..." << std::endl;
     hilo3.join();
 
-    std::cout << "Hilo Principal: Ambos hilos han terminado. Finalizando programa." << std::endl;
+    std::cout << "Hilo Principal: Los tres hilos han terminado. Finalizando programa." << std::endl;
 
     return 0;
 }
