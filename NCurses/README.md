@@ -6,9 +6,9 @@ A set of examples of Terminal User Interfaces (TUI) written in C++.
 
 The goal is to place characters in the console window to create a User Interface.
 The approaches utilized are:
-    * Windows (windows.h)
-    * Linux (ANSI escape sequences)
-    * Multiplatform (NCurses library)
+* Windows Console API (windows.h)
+* Linux (ANSI escape sequences)
+* Multiplatform ([NCurses](https://invisible-island.net/ncurses/) library)
 
 ## Setup 
 
