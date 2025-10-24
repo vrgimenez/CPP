@@ -29,6 +29,7 @@ link_directories(${NCURSES_ROOT}/lib)
 # The example applications
 set(EXECUTABLES
     NCursesMain
+    NCursesExamples
 )
 
 ## Build the example apps
