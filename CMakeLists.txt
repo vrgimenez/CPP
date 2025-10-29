@@ -19,6 +19,8 @@ set(EXECUTABLES
     main01
     main02
     multithreading_example
+    multithreading_example_detach
+    multithreading_example_sharedVector
     Notificacion_IA_payload
     Notificacion_IA_solution1
     Notificacion_IA_solution2

@@ -6,7 +6,7 @@
     #else
 #include <windows.h>
     #endif
-#include <ncurses.h>
+#include <curses.h>
 
 // gotoxy() Windows and Linux implementations
 void gotoxy(int x, int y) {

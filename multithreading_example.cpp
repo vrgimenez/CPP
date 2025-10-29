@@ -2,6 +2,9 @@
 #include <thread>
 #include <chrono>
 #include <climits>
+    #ifdef _WIN32
+#include <windows.h>
+    #endif
 
 // Función que será ejecutada por el primer hilo
 void tarea_hilo_1_sleep_for() {
@@ -32,6 +35,13 @@ void tarea_hilo_3_factorial(int n) {
 }
 
 int main() {
+
+        #ifdef _WIN32
+    // 0. Para que salgan los tildes
+    SetConsoleCP(CP_UTF8);
+    SetConsoleOutputCP(CP_UTF8);
+        #endif
+
     std::cout << "Hilo Principal: Creando hilos..." << std::endl;
 
     // 1. Creación del primer hilo.

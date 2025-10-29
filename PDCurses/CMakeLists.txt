@@ -2,25 +2,25 @@
 cmake_minimum_required(VERSION 3.13)
 
 # Nombre del proyecto
-project(NCursesCppExamples CXX)
+project(PNCursesCppExamples CXX)
 
 # Establecer el estándar C++ (usa un estándar moderno)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Directorio base donde se encuentra la librería NCurses
-set(NCURSES_ROOT "c:/ncurses")
+# Directorio base donde se encuentra la librería PNCurses
+set(PDCURSES_ROOT "c:/pdcurses")
 
 # =========================================================
-# 1. Incluir directorios y librerías de NCurses
+# 1. Incluir directorios y librerías de PNCurses
 # =========================================================
 
 # Incluir los directorios de cabecera (headers)
-# NCurses (donde están los archivos .h)
-include_directories(${NCURSES_ROOT}/include/ncursesw)
+# PNCurses (donde están los archivos .h)
+include_directories(${PDCURSES_ROOT})
 
 # Directorio donde se encuentran los archivos .lib o .a
-link_directories(${NCURSES_ROOT}/lib)
+link_directories(${PDCURSES_ROOT}/wincon)
 
 # =========================================================
 # 2. Definir los ejecutables y sus dependencias
@@ -28,7 +28,6 @@ link_directories(${NCURSES_ROOT}/lib)
 
 # The example applications
 set(EXECUTABLES
-    NCursesMain
     3-SimplePrintwExample
     4-SimpleScanwExample
     5-SimpleAttributesExample
@@ -38,7 +37,6 @@ set(EXECUTABLES
     9-ColorsExample
     10-SimpleKeyUsageExample
     11-SimpleKeyMouseUsageExample
-    11-SimpleKeyMouseUsageExample_
     12-TemporarilyLeavingCursesModeExample
     13-ACSVariablesExample
 )
@@ -48,7 +46,7 @@ foreach(EXECUTABLE ${EXECUTABLES})
     # Añade ejecutables
     add_executable(${EXECUTABLE} ${EXECUTABLE}.cpp)
 
-    # Defino NCURSES_STATIC
+    # Defino PNCURSES_STATIC
     target_compile_options(${EXECUTABLE} PUBLIC
         -O3
         -DNDEBUG
@@ -57,10 +55,10 @@ foreach(EXECUTABLE ${EXECUTABLES})
 
     # Enlazar las librerías necesarias con el ejecutable
     target_link_libraries(${EXECUTABLE}
-        # NCurses
-        ncursesw.a
+        # PNCurses
+        pdcurses.a
         
-        # Librerías de sistema adicionales que NCurses puede necesitar en Windows
+        # Librerías de sistema adicionales que PNCurses puede necesitar en Windows
         # rpcrt4
         # ws2_32
         # advapi32
